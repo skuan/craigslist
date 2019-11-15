@@ -6,8 +6,6 @@ import collections
 import time
 import csv
 
-driver = webdriver.Chrome()
-driver.get('https://sfbay.craigslist.org/search/sso')
 
 # while True:
 #     try:
@@ -21,24 +19,39 @@ driver.get('https://sfbay.craigslist.org/search/sso')
 # print("Complete")
 # time.sleep(10)
 
-header_list = []
+def getListingLinks(link):
+# Open the driver
+	driver = webdriver.Chrome()
+	driver.get(link)
 
-table_headers = driver.find_element_by_xpath('/html/body/section/form/div[4]/ul')
-# headers = table_headers.find_elements_by_tag_name('/html/body/section/form/div[4]/ul/li')
+# Save the links
+	craig_title = []
+	all_posts = driver.find_elements_by_class_name("result-row")
+	for post in all_posts:
+		craig_title.append(post.text)
 
-for row in table_headers:
-	header_col = row.find_elements_by_tag_name('li')
-	for item in header_col: 
-		t = item.text
-		header_list.append(t)
-		# print(t)
+	driver.close()
+	print(craig_title)
 
-print(header_list)
+getListingLinks('https://sfbay.craigslist.org/search/sso')
+# header_list = []
 
-csv_file = open('craigslist.csv', 'w', newline='')
-writer = csv.writer(csv_file)
-writer.writerow(header_list)
-csv_file.close()
+# table_headers = driver.find_element_by_xpath('/html/body/section/form/div[4]/ul')
+# # headers = table_headers.find_elements_by_tag_name('/html/body/section/form/div[4]/ul/li')
+
+# for row in table_headers:
+# 	header_col = row.find_elements_by_tag_name('li')
+# 	for item in header_col: 
+# 		t = item.text
+# 		header_list.append(t)
+# 		# print(t)
+
+# print(header_list)
+
+# csv_file = open('craigslist.csv', 'w', newline='')
+# writer = csv.writer(csv_file)
+# writer.writerow(header_list)
+# csv_file.close()
 
 ####	
 
